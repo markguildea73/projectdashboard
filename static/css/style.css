@@ -1,0 +1,73 @@
+/*Page basic styles and grid layout*/
+
+.container {
+    border:0;
+    margin:0;
+    width:100%;
+}
+
+.header {
+    
+    background-color: #fff;
+    height:100px;
+}
+.coldroom_trend {
+    background-color: #dcebf3;
+    height:150px;
+}
+.ambient_trend {
+    background-color: #f3e5dc;
+    height:150px;
+}
+.coldroom_table {
+    background-color: #dcebf3;
+    height:150px;
+}
+.ambient_table {
+    background-color: #f3e5dc;
+    height:150px;
+    overflow: scroll;
+}
+.coldroom_summary {
+    background-color: #dcebf3;
+    height:150px;
+}
+.ambient_summary {
+    background-color: #f3e5dc;
+    height:150px;
+}
+.coldroom_criteria {
+    background-color: #dcebf3;
+    height:150px;
+}
+.ambient_criteria {
+    background-color: #f3e5dc;
+    height:150px;
+}
+
+/*Tabulated styling*/
+	    
+
+
+table { 
+		width: 100%; 
+		border-collapse: collapse; 
+		overflow: scroll;
+	}
+	tr:nth-of-type(odd) { 
+		background: #eee; 
+	}
+	th { 
+		background: #333; 
+		color: white; 
+		font-weight: bold; 
+		cursor: s-resize;
+		background-repeat: no-repeat;
+        background-position: 3% center;
+	}
+	td, th { 
+		padding: 6px; 
+		border: 1px solid #ccc; 
+		text-align: left; 
+	}
+
