@@ -35,6 +35,7 @@
 .ambient_summary {
     background-color: #f3e5dc;
     height:150px;
+    overflow: scroll;
 }
 .coldroom_criteria {
     background-color: #dcebf3;

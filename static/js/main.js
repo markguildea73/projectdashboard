@@ -170,7 +170,7 @@ queue()
             
          }
          
-         //Table for data ambient
+         //Table code 1
         
         function data_list(ndx){
             d3.csv("data/amb.csv", function(error, data) {
@@ -207,8 +207,7 @@ queue()
 		    });
 	  });
         }
-        
-        // summary data ambient
+// Table code 2
 
         function min_Temp(ndx){
             d3.csv("data/amb.csv", function(error, data) {
@@ -220,8 +219,7 @@ queue()
 		  var highlowTemp1 = d3.extent(data, function(d) {return d.temp1});
 		  var meanTemp1 = d3.mean(data, function(d) {return d.temp1});
 		  var staDevTemp1 = d3.deviation(data, function(d) {return d.temp1});
-		  
-		  
+		 
 		  //console.log(minTemp1 + " Minimum Tempertaures")
 		  //console.log(maxTemp1 + " Maximum Tempertaures")
 		  //console.log(highlowTemp1 + " High and low")
@@ -229,7 +227,7 @@ queue()
 		  //console.log(staDevTemp1 + " Standard deviation at Temperature 1")
 		  
 		  var tabulate = function (data,columns) {
-          var table = d3.select('.ambient_summary').append('table')
+          var table = d3.select('.TBD').append('table')
         	var thead = table.append('thead')
         	var tbody = table.append('tbody')
         
@@ -258,13 +256,30 @@ queue()
           return table;
         }
         
-        d3.csv('data.csv',function (data) {
-        	var columns = ['Sensor','Max Temp','Min Temp','Mean Temp']
+        d3.csv('data/amb.csv',function (data) {
+        	var columns = ['date','temp1','temp2','temp3','temp4']
           tabulate(data,columns)
 })
 		  
         });
         }
         
+// summary div will have a drop down choice 
+var inPut = document.querySelector("input[name=dropDown]");
+var summArray = ["", "Max Temp", "Min Temp", "Mean Temp", "StdDev"]
+var selSummary = document.querySelector("select[name=summary]");
+
+document.addEventListener("DOMContentLoaded", function(){
+    summArray.forEach(function(item){
+        let choice = document.createElement("option");
+        choice.value=item
+        choice.innerHTML=item
+        selSummary.appendChild(choice)
+        console.log(choice)
+    })
+    
+})
+
+
+
 // User interface options
-//Will use buttons to switch between line and scatter composites
