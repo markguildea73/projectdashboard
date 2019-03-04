@@ -28,6 +28,8 @@ queue()
         
         data_list(ndx);
         
+        min_Temp(ndx);
+        
         
         // render charts
         dc.renderAll();
@@ -35,6 +37,8 @@ queue()
         
         
     }
+    
+    //Composite line graph
     function show_composite_trend(ndx){
         var date_dim = ndx.dimension(dc.pluck('date'));
         var minDate = date_dim.bottom(1)[0].date;
@@ -46,7 +50,7 @@ queue()
         var temp3Data = date_dim.group().reduceSum(dc.pluck("temp3"));
         var temp4Data = date_dim.group().reduceSum(dc.pluck("temp4"));
         
-        var compositeChart = dc.compositeChart('.coldroom_trend');
+        var compositeChart = dc.compositeChart('.ambient_trend');
         
         compositeChart
             .width(600)
@@ -78,6 +82,8 @@ queue()
             // .render()
         }
         
+        //Scatter Plot with one sensor
+        
         function show_scatter_plot(ndx){
         var date_dim = ndx.dimension(dc.pluck('date'));
         var minDate = date_dim.bottom(1)[0].date;
@@ -88,7 +94,7 @@ queue()
             return [d.date, d.temp1];
             })
         var temp_group = temp_dim.group();
-        var temp_chart = dc.scatterPlot(".ambient_trend");
+        var temp_chart = dc.scatterPlot(".TBD");
             
             temp_chart
                 .width(600)
@@ -106,6 +112,8 @@ queue()
                 .group(temp_group, "Temp3")
 
         }
+        
+        //Scatter Plot composite
         
         function show_scatter_plot_2(ndx){
         var date_dim = ndx.dimension(dc.pluck('date'));
@@ -128,7 +136,7 @@ queue()
         var temp_group_2 = temp_dim_2.group();
         var temp_group_3 = temp_dim_3.group();
         
-        var scatter = dc.compositeChart('.coldroom_table');
+        var scatter = dc.compositeChart('.TBD');
         
         scatter
             .width(600)
@@ -161,12 +169,14 @@ queue()
             .brushOn(false)
             
          }
+         
+         //Table for data ambient
         
         function data_list(ndx){
             d3.csv("data/amb.csv", function(error, data) {
 		  if (error) throw error;
 		  
-		  console.log(data)
+		  //console.log(data)
 		  
 		  var sortAscending = true;
 		  var table = d3.select('.ambient_table').append('table');
@@ -197,3 +207,64 @@ queue()
 		    });
 	  });
         }
+        
+        // summary data ambient
+
+        function min_Temp(ndx){
+            d3.csv("data/amb.csv", function(error, data) {
+		  if (error) throw error;
+		  //console.log(data)
+		  
+		  var minTemp1 = d3.min(data, function(d) {return d.temp1});
+		  var maxTemp1 = d3.max(data, function(d) {return d.temp1});
+		  var highlowTemp1 = d3.extent(data, function(d) {return d.temp1});
+		  var meanTemp1 = d3.mean(data, function(d) {return d.temp1});
+		  var staDevTemp1 = d3.deviation(data, function(d) {return d.temp1});
+		  
+		  
+		  //console.log(minTemp1 + " Minimum Tempertaures")
+		  //console.log(maxTemp1 + " Maximum Tempertaures")
+		  //console.log(highlowTemp1 + " High and low")
+		  //console.log(meanTemp1 + " Mean Temperatures")
+		  //console.log(staDevTemp1 + " Standard deviation at Temperature 1")
+		  
+		  var tabulate = function (data,columns) {
+          var table = d3.select('.ambient_summary').append('table')
+        	var thead = table.append('thead')
+        	var tbody = table.append('tbody')
+        
+        	thead.append('tr')
+        	  .selectAll('th')
+        	    .data(columns)
+        	    .enter()
+        	  .append('th')
+        	    .text(function (d) { return d })
+        
+        	var rows = tbody.selectAll('tr')
+        	    .data(data)
+        	    .enter()
+        	  .append('tr')
+        
+        	var cells = rows.selectAll('td')
+        	    .data(function(row) {
+        	    	return columns.map(function (column) {
+        	    		return { column: column, value: row[column] }
+        	      })
+              })
+              .enter()
+            .append('td')
+              .text(function (d) { return d.value })
+        
+          return table;
+        }
+        
+        d3.csv('data.csv',function (data) {
+        	var columns = ['Sensor','Max Temp','Min Temp','Mean Temp']
+          tabulate(data,columns)
+})
+		  
+        });
+        }
+        
+// User interface options
+//Will use buttons to switch between line and scatter composites
