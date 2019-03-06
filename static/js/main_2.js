@@ -57,7 +57,7 @@ queue()
             .height(130)
             .dimension(date_dim)
             .x(d3.time.scale().domain([minDate, maxDate]))
-            .y(d3.scale.linear().domain([0,30]))
+            .y(d3.scale.linear().domain([0,10]))
             .yAxisLabel("Temperature")
             .xAxisLabel("Date")
             .legend(dc.legend().x(80).y(20).itemHeight(13).gap(5))
@@ -79,6 +79,7 @@ queue()
                     .group(temp4Data, "temp4"),
             ])
             .brushOn(true)
+            .render()
             
         }
         

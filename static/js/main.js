@@ -32,7 +32,7 @@ queue()
         
         
         // render charts
-        dc.renderAll();
+        
         
         
         
