@@ -1,15 +1,15 @@
 queue()
-        .defer(d3.csv, "/data/amb1.csv")
-        .await(makeGraphs);
+        .defer(d3.csv, "/data/col1.csv")
+        .await(makeGraphCold);
         
-    function makeGraphs(error, data) {
-        var ndx = crossfilter(data);
+    function makeGraphCold(error, dataC) {
+        var ndx = crossfilter(dataC);
         
         // date parsing
         
-        var parseDate = d3.time.format("%d/%m/%Y %H:%M").parse;
-        data.forEach(function(d){
-            d.date = parseDate(d.date);
+        var parseDateC = d3.time.format("%d/%m/%Y %H:%M").parse;
+        dataC.forEach(function(d){
+            d.date = parseDateC(d.date);
             d.temp1 = +d.temp1;
             d.temp2 = +d.temp2;
             d.temp3 = +d.temp3;
@@ -20,15 +20,15 @@ queue()
         // charts 
         
         
-        show_composite_trend(ndx);
+        show_composite_trend_c(ndx);
         
-        show_scatter_plot(ndx);
+        show_scatter_plot_c(ndx);
         
-        show_scatter_plot_2(ndx);
+        show_scatter_plot_2_c(ndx);
         
-        data_list(ndx);
+        data_list_c(ndx);
         
-        min_Temp(ndx);
+        min_Temp_c(ndx);
         
         
         // render charts
@@ -39,7 +39,7 @@ queue()
     }
     
     //Composite line graph
-    function show_composite_trend(ndx){
+    function show_composite_trend_c(ndx){
         var date_dim = ndx.dimension(dc.pluck('date'));
         var minDate = date_dim.bottom(1)[0].date;
         var maxDate = date_dim.top(1)[0].date;
@@ -50,9 +50,9 @@ queue()
         var temp3Data = date_dim.group().reduceSum(dc.pluck("temp3"));
         var temp4Data = date_dim.group().reduceSum(dc.pluck("temp4"));
         
-        var compositeChart = dc.compositeChart('.ambient_trend');
+        var compositeChart_c = dc.compositeChart('.coldroom_trend');
         
-        compositeChart
+        compositeChart_c
             .width(600)
             .height(130)
             .dimension(date_dim)
@@ -65,26 +65,26 @@ queue()
             .elasticX(false)
             .yAxisPadding(5)
             .compose([
-                dc.lineChart(compositeChart)
+                dc.lineChart(compositeChart_c)
                     .colors('green')
                     .group(temp1Data, "temp1"),
-                dc.lineChart(compositeChart)
+                dc.lineChart(compositeChart_c)
                     .colors('red')
                     .group(temp2Data, "temp2"),
-                dc.lineChart(compositeChart)
+                dc.lineChart(compositeChart_c)
                     .colors('blue')
                     .group(temp3Data, "temp3"),
-                dc.lineChart(compositeChart)
+                dc.lineChart(compositeChart_c)
                     .colors('orange')
                     .group(temp4Data, "temp4"),
             ])
             .brushOn(true)
-            // .render()
+            
         }
         
         //Scatter Plot with one sensor
         
-        function show_scatter_plot(ndx){
+        function show_scatter_plot_c(ndx){
         var date_dim = ndx.dimension(dc.pluck('date'));
         var minDate = date_dim.bottom(1)[0].date;
         var maxDate = date_dim.top(1)[0].date;
@@ -115,7 +115,7 @@ queue()
         
         //Scatter Plot composite
         
-        function show_scatter_plot_2(ndx){
+        function show_scatter_plot_2_c(ndx){
         var date_dim = ndx.dimension(dc.pluck('date'));
         var minDate = date_dim.bottom(1)[0].date;
         var maxDate = date_dim.top(1)[0].date;
@@ -172,14 +172,14 @@ queue()
          
          //Table code 1
         
-        function data_list(ndx){
-            d3.csv("data/amb.csv", function(error, data) {
+        function data_list_c(ndx){
+            d3.csv("data/col1.csv", function(error, data) {
 		  if (error) throw error;
 		  
 		  //console.log(data)
 		  
 		  var sortAscending = true;
-		  var table = d3.select('.ambient_table').append('table');
+		  var table = d3.select('.coldroom_table').append('table');
 		  var titles = d3.keys(data[0]);
 		  var headers = table.append('thead').append('tr')
 		                   .selectAll('th')
@@ -207,10 +207,10 @@ queue()
 		    });
 	  });
         }
-// Table code 2
+// Table code 
 
-        function min_Temp(ndx){
-            d3.csv("data/amb1.csv", function(error, data) {
+        function min_Temp_c(ndx){
+            d3.csv("data/col1.csv", function(error, data) {
 		  if (error) throw error;
 		  //console.log(data)
 		  
@@ -256,32 +256,10 @@ queue()
           return table;
         }
         
-        d3.csv('data/amb1.csv',function (data) {
+        d3.csv('data/col1.csv',function (data) {
         	var columns = ['date','temp1','temp2','temp3','temp4']
           tabulate(data,columns)
 })
 		  
         });
         }
-        
-
-        
-// summary div will have a drop down choice 
-var inPut = document.querySelector("input[name=dropDown]");
-var summArray = ["", "Max Temp", "Min Temp", "Mean Temp", "StdDev"]
-var selSummary = document.querySelector("select[name=summary]");
-
-document.addEventListener("DOMContentLoaded", function(){
-    summArray.forEach(function(item){
-        let choice = document.createElement("option");
-        choice.value=item
-        choice.innerHTML=item
-        selSummary.appendChild(choice)
-        console.log(choice)
-    })
-    
-})
-
-
-
-// User interface options-make the button change from scatter to line graph using JS

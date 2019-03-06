@@ -22,6 +22,7 @@
 .coldroom_table {
     background-color: #dcebf3;
     height:150px;
+    overflow: scroll;
 }
 .ambient_table {
     background-color: #f3e5dc;
