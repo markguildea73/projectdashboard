@@ -15,6 +15,8 @@ queue()
             d.temp3 = +d.temp3;
             d.temp4 = +d.temp4;
             
+            // if(data.temp1 >100){return window.alert("Temperature Alert")}
+            
         });
         
         // charts 
@@ -29,6 +31,7 @@ queue()
         data_list(ndx);
         
         min_Temp(ndx);
+        
         
         
         // render charts
@@ -219,6 +222,8 @@ queue()
 		  var highlowTemp1 = d3.extent(data, function(d) {return d.temp1});
 		  var meanTemp1 = d3.mean(data, function(d) {return d.temp1});
 		  var staDevTemp1 = d3.deviation(data, function(d) {return d.temp1});
+		  
+		  
 		 
 		  //console.log(minTemp1 + " Minimum Tempertaures")
 		  //console.log(maxTemp1 + " Maximum Tempertaures")
@@ -281,6 +286,11 @@ document.addEventListener("DOMContentLoaded", function(){
     })
     
 })
+
+// Use a loop to create alert when a reading is above 25°C or Below 8°C 
+
+
+
 
 
 
